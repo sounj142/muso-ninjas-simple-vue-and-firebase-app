@@ -15,11 +15,11 @@ export default function routerAuthentication() {
     }
     if (route.matched.some((record) => record.meta.requiresAuth)) {
       if (!currentUser) {
-        router.push({ name: 'Welcome' });
+        router.push({ name: 'Login' });
       }
     } else if (route.matched.some((record) => record.meta.requiresGuest)) {
       if (currentUser) {
-        router.push({ name: 'Chatroom' });
+        router.push({ name: 'Home' });
       }
     }
   });

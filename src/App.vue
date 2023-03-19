@@ -7,7 +7,7 @@
 
 <script>
 import routerAuthentication from '@/composables/auth/routerAuthentication';
-import FullScreenLoading from './components/FullScreenLoading.vue';
+import FullScreenLoading from '@/components/FullScreenLoading.vue';
 
 export default {
   components: { FullScreenLoading },
