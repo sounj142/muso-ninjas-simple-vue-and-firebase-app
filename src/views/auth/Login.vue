@@ -29,7 +29,7 @@ export default {
       email: '',
       password: '',
     });
-    const isLoading = ref(true);
+    const isLoading = ref(false);
     const error = ref(null);
 
     const { logIn } = userLogin(isLoading, error);
