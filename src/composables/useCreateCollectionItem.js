@@ -1,11 +1,10 @@
 import { projectFirestore, serverTimestamp } from '@/firebase/config';
 
-export default function createCollectionItem(isLoading, error, collectionName) {
+export default function useCreateCollectionItem(isLoading, error, collectionName) {
   const createItem = async (data) => {
+    isLoading.value = true;
+    error.value = null;
     try {
-      isLoading.value = true;
-      error.value = null;
-
       const newData = {
         ...data,
         createdAt: serverTimestamp(),

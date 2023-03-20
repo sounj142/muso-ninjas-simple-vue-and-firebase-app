@@ -1,10 +1,10 @@
 import { projectAuth } from '@/firebase/config';
 
-export default function userLogin(isLoading, error) {
+export default function useLogin(isLoading, error) {
   const logIn = async ({ email, password }) => {
+    isLoading.value = true;
+    error.value = null;
     try {
-      isLoading.value = true;
-      error.value = null;
       await projectAuth.signInWithEmailAndPassword(email, password);
     } catch (err) {
       console.log(err);

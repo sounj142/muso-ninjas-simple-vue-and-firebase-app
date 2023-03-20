@@ -21,7 +21,7 @@
 
 <script>
 import { ref } from 'vue';
-import userLogin from '@/composables/auth/userLogin';
+import useLogin from '@/composables/auth/useLogin';
 
 export default {
   setup() {
@@ -32,7 +32,7 @@ export default {
     const isLoading = ref(false);
     const error = ref(null);
 
-    const { logIn } = userLogin(isLoading, error);
+    const { logIn } = useLogin(isLoading, error);
     const submitHandler = () => logIn(formData.value);
 
     return { formData, isLoading, error, submitHandler };

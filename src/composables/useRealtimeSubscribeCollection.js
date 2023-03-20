@@ -1,12 +1,12 @@
 import { ref, onUnmounted } from 'vue';
 import { projectFirestore } from '@/firebase/config';
 
-export default function realtimeSubscribeCollection(
+export default function useRealtimeSubscribeCollection(
   error,
   collectionName,
   orderBy = 'createdAt',
-  orderDirection = 'asc',
-  localDataFilterFunc = (item) => item.createdAt
+  orderDirection = 'desc',
+  ignoreLocalData = true
 ) {
   const items = ref(null);
 
@@ -16,18 +16,19 @@ export default function realtimeSubscribeCollection(
 
   const unsubscribe = dataResource.onSnapshot(
     (res) => {
-      const result = [];
+      if (ignoreLocalData && res.metadata.hasPendingWrites) {
+        // ignore if data is local
+        return;
+      }
+      items.value = [];
       if (res.docs?.length) {
-        res.docs.forEach((p) => {
+        items.value = res.docs.map((p) => {
           const item = p.data();
           item.id = p.id;
-          if (!localDataFilterFunc || localDataFilterFunc(item)) {
-            result.push(item);
-          }
+          return item;
         });
       }
       error.value = null;
-      items.value = result;
     },
     (err) => {
       error.value = err.message;

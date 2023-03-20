@@ -2,14 +2,13 @@ import { useStore } from 'vuex';
 import { projectAuth } from '@/firebase/config';
 import { Mutations } from '@/store';
 
-export default function userSignup(isLoading, error) {
+export default function useSignup(isLoading, error) {
   const store = useStore();
 
   const signUp = async ({ email, password, displayName }) => {
+    isLoading.value = true;
+    error.value = null;
     try {
-      isLoading.value = true;
-      error.value = null;
-
       const userCredential = await projectAuth.createUserWithEmailAndPassword(
         email,
         password

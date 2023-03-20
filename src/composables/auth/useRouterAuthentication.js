@@ -2,7 +2,7 @@ import { watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 
-export default function routerAuthentication() {
+export default function useRouterAuthentication() {
   const store = useStore();
   const route = useRoute();
   const router = useRouter();

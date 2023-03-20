@@ -27,7 +27,7 @@
 
 <script>
 import { ref } from 'vue';
-import userSignup from '@/composables/auth/userSignup';
+import useSignup from '@/composables/auth/useSignup';
 
 export default {
   setup() {
@@ -39,7 +39,7 @@ export default {
     const isLoading = ref(false);
     const error = ref(null);
 
-    const { signUp } = userSignup(isLoading, error);
+    const { signUp } = useSignup(isLoading, error);
 
     const submitHandler = () => signUp(formData.value);
 

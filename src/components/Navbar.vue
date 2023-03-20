@@ -10,6 +10,9 @@
       <div class="links">
         <template v-if="currentUser">
           <span>Hi, {{ currentUser.displayName }}</span>
+          <router-link :to="{ name: 'CreatePlaylist' }" class="btn"
+            >Create playlist</router-link
+          >
           <button @click="logOut" type="button">Logout</button>
         </template>
 
@@ -25,7 +28,7 @@
 </template>
 
 <script>
-import userLogout from '@/composables/auth/userLogout';
+import useLogout from '@/composables/auth/useLogout';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 
@@ -35,7 +38,7 @@ export default {
 
     const currentUser = computed(() => store.state.user.currentUser);
 
-    const { logOut } = userLogout();
+    const { logOut } = useLogout();
 
     return {
       currentUser,

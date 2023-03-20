@@ -10,14 +10,14 @@
 </template>
 
 <script>
-import routerAuthentication from '@/composables/auth/routerAuthentication';
+import useRouterAuthentication from '@/composables/auth/useRouterAuthentication';
 import FullScreenLoading from '@/components/FullScreenLoading.vue';
 import Navbar from '@/components/Navbar.vue';
 
 export default {
   components: { FullScreenLoading, Navbar },
   setup() {
-    routerAuthentication();
+    useRouterAuthentication();
     return {};
   },
 };
