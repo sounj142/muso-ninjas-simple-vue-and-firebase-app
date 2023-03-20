@@ -1,10 +1,13 @@
 import { projectFirestore, serverTimestamp } from '@/firebase/config';
+import { tryCatch } from './helper';
 
-export default function useCreateCollectionItem(isLoading, error, collectionName) {
-  const createItem = async (data) => {
-    isLoading.value = true;
-    error.value = null;
-    try {
+export default function useCreateCollectionItem(
+  isLoading,
+  error,
+  collectionName
+) {
+  const createItem = (data) => {
+    return tryCatch(isLoading, error, async () => {
       const newData = {
         ...data,
         createdAt: serverTimestamp(),
@@ -12,12 +15,7 @@ export default function useCreateCollectionItem(isLoading, error, collectionName
       const dataResource = projectFirestore.collection(collectionName);
       const res = await dataResource.add(newData);
       return res.id;
-    } catch (err) {
-      console.log(err);
-      error.value = err.message;
-    } finally {
-      isLoading.value = false;
-    }
+    });
   };
 
   return { createItem };

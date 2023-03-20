@@ -9,13 +9,13 @@
 <script>
 import { ref } from 'vue';
 import PlaylistList from '@/components/PlaylistList.vue';
-import useGetRealtimePlaylist from '@/composables/playlists/useGetRealtimePlaylist';
+import useGetRealtimePlaylists from '@/composables/playlists/useGetRealtimePlaylists';
 
 export default {
   components: { PlaylistList },
   setup() {
     const error = ref(null);
-    const { playlists } = useGetRealtimePlaylist(error);
+    const { playlists } = useGetRealtimePlaylists(error);
 
     return { playlists, error };
   },

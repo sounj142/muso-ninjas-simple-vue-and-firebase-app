@@ -28,9 +28,8 @@
 
 <script>
 import { ref } from 'vue';
-import useUploadPlaylistImage from '@/composables/playlists/useUploadPlaylistImage';
-import useCreatePlaylist from '@/composables/playlists/useCreatePlaylist';
 import { useRouter } from 'vue-router';
+import useCreatePlaylist from '@/composables/playlists/useCreatePlaylist';
 
 export default {
   setup() {
@@ -39,31 +38,24 @@ export default {
     const formData = ref({
       title: '',
       description: '',
+      image: null,
     });
-    const file = ref(null);
     const isLoading = ref(false);
     const error = ref(null);
 
     const handleFileSelected = (e) => {
       const selectedFile = e.target.files && e.target.files[0];
-      file.value = selectedFile || null;
+      formData.value.image = selectedFile || null;
     };
 
-    const { uploadImage } = useUploadPlaylistImage(isLoading, error);
     const { createPlaylist } = useCreatePlaylist(isLoading, error);
 
     const submitHandler = async () => {
-      if (!file.value) return;
+      if (!formData.value.image) return;
 
-      const coverImageUrl = await uploadImage(file.value);
-      if (error.value) return;
-
-      await createPlaylist({
-        ...formData.value,
-        coverImageUrl: coverImageUrl,
-      });
+      const id = await createPlaylist(formData.value);
       if (!error.value) {
-        router.push({ name: 'Home' });
+        router.push({ name: 'PlaylistDetail', params: { id: id } });
       }
     };
 

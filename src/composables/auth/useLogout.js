@@ -1,9 +1,7 @@
 import { projectAuth } from '@/firebase/config';
 
 export default function useLogout() {
-  const logOut = async () => {
-    await projectAuth.signOut();
-  };
+  const logOut = () => projectAuth.signOut();
 
   return { logOut };
 }

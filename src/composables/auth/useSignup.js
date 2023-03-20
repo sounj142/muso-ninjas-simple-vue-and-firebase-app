@@ -1,14 +1,13 @@
 import { useStore } from 'vuex';
 import { projectAuth } from '@/firebase/config';
 import { Mutations } from '@/store';
+import { tryCatch } from '../helper';
 
 export default function useSignup(isLoading, error) {
   const store = useStore();
 
-  const signUp = async ({ email, password, displayName }) => {
-    isLoading.value = true;
-    error.value = null;
-    try {
+  const signUp = ({ email, password, displayName }) => {
+    return tryCatch(isLoading, error, async () => {
       const userCredential = await projectAuth.createUserWithEmailAndPassword(
         email,
         password
@@ -23,12 +22,7 @@ export default function useSignup(isLoading, error) {
         email: user.email,
         displayName: user.displayName,
       });
-    } catch (err) {
-      console.log(err);
-      error.value = err.message;
-    } finally {
-      isLoading.value = false;
-    }
+    });
   };
 
   return { signUp };

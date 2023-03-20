@@ -1,17 +1,11 @@
 import { projectAuth } from '@/firebase/config';
+import { tryCatch } from '@/composables/helper';
 
 export default function useLogin(isLoading, error) {
-  const logIn = async ({ email, password }) => {
-    isLoading.value = true;
-    error.value = null;
-    try {
-      await projectAuth.signInWithEmailAndPassword(email, password);
-    } catch (err) {
-      console.log(err);
-      error.value = err.message;
-    } finally {
-      isLoading.value = false;
-    }
+  const logIn = ({ email, password }) => {
+    return tryCatch(isLoading, error, () => {
+      return projectAuth.signInWithEmailAndPassword(email, password);
+    });
   };
 
   return { logIn };
