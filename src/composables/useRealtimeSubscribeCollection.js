@@ -6,7 +6,7 @@ export default function useRealtimeSubscribeCollection(
   collectionName,
   orderBy = 'createdAt',
   orderDirection = 'desc',
-  ignoreLocalData = true
+  isKeepDataFunc = (item) => item.createdAt
 ) {
   const items = ref(null);
 
@@ -16,17 +16,17 @@ export default function useRealtimeSubscribeCollection(
 
   const unsubscribe = dataResource.onSnapshot(
     (res) => {
-      if (ignoreLocalData && res.metadata.hasPendingWrites) {
-        // ignore if data is local
-        return;
-      }
       items.value = [];
       if (res.docs?.length) {
-        items.value = res.docs.map((p) => {
-          const item = p.data();
-          item.id = p.id;
-          return item;
+        const result = [];
+        res.docs.forEach((p) => {
+          const obj = p.data();
+          obj.id = p.id;
+          if (!isKeepDataFunc || isKeepDataFunc(obj)) {
+            result.push(obj);
+          }
         });
+        items.value = result;
       }
       error.value = null;
     },

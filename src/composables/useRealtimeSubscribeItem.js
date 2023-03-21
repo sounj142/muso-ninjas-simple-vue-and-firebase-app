@@ -6,7 +6,7 @@ export default function useRealtimeSubscribeItem(
   collectionName,
   id,
   notFoundMessage,
-  ignoreLocalData = true
+  isKeepDataFunc = (item) => item.createdAt
 ) {
   const item = ref(null);
 
@@ -14,15 +14,13 @@ export default function useRealtimeSubscribeItem(
 
   const unsubscribe = dataResource.onSnapshot(
     (res) => {
-      if (ignoreLocalData && res.metadata.hasPendingWrites) {
-        // ignore if data is local
-        return;
-      }
-
       if (res.exists) {
-        item.value = res.data();
-        item.value.id = res.id;
-        error.value = null;
+        const result = res.data();
+        result.id = res.id;
+        if (!isKeepDataFunc || isKeepDataFunc(result)) {
+          item.value = result;
+          error.value = null;
+        }
       } else {
         item.value = null;
         error.value = notFoundMessage;
