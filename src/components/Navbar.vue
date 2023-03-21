@@ -9,10 +9,12 @@
 
       <div class="links">
         <template v-if="currentUser">
-          <span>Hi, {{ currentUser.displayName }}</span>
-          <router-link :to="{ name: 'CreatePlaylist' }" class="btn"
+          <router-link :to="{ name: 'CreatePlaylist' }"
             >Create playlist</router-link
           >
+          <router-link :to="{ name: 'UserPlaylist' }">My playlists</router-link>
+
+          <span>Hi, {{ currentUser.displayName }}</span>
           <button @click="logOut" type="button">Logout</button>
         </template>
 

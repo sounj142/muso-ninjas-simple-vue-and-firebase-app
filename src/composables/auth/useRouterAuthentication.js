@@ -19,7 +19,7 @@ export default function useRouterAuthentication() {
       }
     } else if (route.matched.some((record) => record.meta.requiresGuest)) {
       if (currentUser) {
-        router.push({ name: 'Home' });
+        router.push({ name: 'UserPlaylist' });
       }
     }
   });

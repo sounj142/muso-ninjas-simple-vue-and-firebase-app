@@ -4,6 +4,7 @@ import Login from '@/views/auth/Login.vue';
 import Signup from '@/views/auth/Signup.vue';
 import CreatePlaylist from '@/views/playlists/CreatePlaylist.vue';
 import PlaylistDetail from '@/views/playlists/PlaylistDetail.vue';
+import UserPlaylist from '@/views/playlists/UserPlaylist.vue';
 
 const routes = [
   {
@@ -23,6 +24,12 @@ const routes = [
     name: 'Signup',
     component: Signup,
     meta: { requiresGuest: true },
+  },
+  {
+    path: '/my-playlist',
+    name: 'UserPlaylist',
+    component: UserPlaylist,
+    meta: { requiresAuth: true },
   },
   {
     path: '/playlists/create',

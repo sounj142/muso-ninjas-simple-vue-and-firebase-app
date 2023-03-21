@@ -4,15 +4,17 @@ import { projectFirestore } from '@/firebase/config';
 export default function useRealtimeSubscribeCollection(
   error,
   collectionName,
-  orderBy = 'createdAt',
-  orderDirection = 'desc',
+  whereFunc = undefined,
+  orderFunc = (collections) => collections.orderBy('createdAt', 'desc'),
   isKeepDataFunc = (item) => item.createdAt
 ) {
   const items = ref(null);
 
-  const dataResource = projectFirestore
-    .collection(collectionName)
-    .orderBy(orderBy, orderDirection);
+  let dataResource = projectFirestore.collection(collectionName);
+  if (whereFunc) {
+    dataResource = whereFunc(dataResource);
+  }
+  dataResource = orderFunc(dataResource);
 
   const unsubscribe = dataResource.onSnapshot(
     (res) => {
